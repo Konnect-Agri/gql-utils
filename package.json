@@ -10,10 +10,15 @@
   "engines": {
     "node": ">=10"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChakshuGautam/gql-utils"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test --watchAll",
+    "test": "tsdx test",
+    "test-watch": "tsdx test --watchAll",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
