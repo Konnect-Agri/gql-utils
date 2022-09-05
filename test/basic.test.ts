@@ -12,7 +12,7 @@ const queryBase = `query MyQuery {
   iti {
     id
   }
-}`
+}`;
 
 const queryWithFieldsRemoved = `query MyQuery {
   attendance(where: {industry: {id: {_eq: 10}}}) {
@@ -25,7 +25,7 @@ const queryWithFieldsRemoved = `query MyQuery {
   iti {
     id
   }
-}`
+}`;
 
 const queryWithFieldsAdded = `query MyQuery {
   attendance(where: {industry: {id: {_eq: 10}}}) {
@@ -39,10 +39,7 @@ const queryWithFieldsAdded = `query MyQuery {
     id
     test
   }
-}`
-
-
-
+}`;
 
 describe('test simple queries', () => {
   it('queries', () => {
