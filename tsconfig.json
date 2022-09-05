@@ -4,6 +4,7 @@
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],
+    "typeRoots": ["node_modules/@types"],
     "importHelpers": true,
     // output .d.ts declaration files for consumers
     "declaration": true,
