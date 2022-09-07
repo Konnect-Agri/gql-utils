@@ -5,7 +5,11 @@ const queryBase = `query MyQuery {
     date
     created_at
     industry {
-      district
+      district {
+        dis_name {
+          dis_location
+        }
+      }
       created_at
     }
   }
@@ -41,9 +45,23 @@ const queryWithFieldsAdded = `query MyQuery {
   }
 }`;
 
+const queryWithFiltersAdded = `query MyQuery {
+  attendance(where: {industry: {id: {_eq: 10}}}) {
+    date
+    created_at
+    industry {
+      district
+    }
+  }
+  iti(where: { id: { _eq: 1 }}) {
+    id
+  }
+}`;
+
 describe('test simple queries', () => {
   it('queries', () => {
     expect(isSubset(queryBase, queryWithFieldsRemoved)).toEqual(true);
     expect(isSubset(queryBase, queryWithFieldsAdded)).toEqual(false);
+    expect(isSubset(queryBase, queryWithFiltersAdded)).toEqual(true);
   });
 });
