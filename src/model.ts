@@ -1,11 +1,11 @@
-import { parse as parseAst, visit, ASTKindToNode, SelectionSetNode } from 'graphql';
+import { parse as parseAst, visit, ArgumentNode, SelectionSetNode } from 'graphql';
 import type { FieldNode, ASTNode } from 'graphql'
 
 interface Entity {
     name: string
     fields: [string?],
     entities: Map<string, Entity>,
-    filters: [Filter?]
+    filters: ReadonlyArray<ArgumentNode>
 }
 
 type ScalarType = string | number | boolean
@@ -67,6 +67,12 @@ export function parse(query: string) : Map<string, Entity> {
                                 }
                                 parent?.entities.set(entity.name, entity)
                             }
+
+                            // Parse filters
+                            if (fieldNode.arguments) {
+                                
+                                entity.filters = fieldNode.arguments
+                            }
                             
                         } 
                     }
@@ -99,7 +105,7 @@ function getAncestorsArray(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTN
     let ret: Array<string> = []
     let index = path.length - 1
     let ancestorsReversed = ancestors.slice().reverse()
-    let i = index
+
     for (let ancestor of ancestorsReversed) {
         // console.log(ancestor)
         if (ancestor instanceof Array) {
@@ -108,8 +114,8 @@ function getAncestorsArray(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTN
         //     ret.push(ancestor.name.value)
         } else if (ancestor.kind == "SelectionSet") {
                 
-            if(i > 2) {
-                let selectionIndex = path[i - 1] as number
+            if(index > 2) {
+                let selectionIndex = path[index - 1] as number
                 let parent = ancestor.selections[selectionIndex]
                 // if (!parent) {
                 //     console.log(ancestorsReversed, path, ancestor, selectionIndex, i)
@@ -117,7 +123,7 @@ function getAncestorsArray(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTN
                 if (parent.kind == "Field") {
                     ret.unshift(parent.name.value)
                 }
-                i-=3
+                index -= 3
             }
             // return ret
         }

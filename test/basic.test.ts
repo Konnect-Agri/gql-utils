@@ -18,7 +18,7 @@ const queryBase = `query MyQuery {
   }
 }`;
 
-const queryWithFieldsRemoved = `query MyQuery {
+const queryRequestingEntity = `query MyQuery {
   attendance(where: {industry: {id: {_eq: 10}}}) {
     date
     created_at
@@ -50,7 +50,12 @@ const queryWithFiltersAdded = `query MyQuery {
     date
     created_at
     industry {
-      district
+      district {
+        dis_name {
+          dis_location
+        }
+      }
+      created_at
     }
   }
   iti(where: { id: { _eq: 1 }}) {
@@ -60,7 +65,7 @@ const queryWithFiltersAdded = `query MyQuery {
 
 describe('test simple queries', () => {
   it('queries', () => {
-    expect(isSubset(queryBase, queryWithFieldsRemoved)).toEqual(true);
+    expect(isSubset(queryBase, queryRequestingEntity)).toEqual(false);
     expect(isSubset(queryBase, queryWithFieldsAdded)).toEqual(false);
     expect(isSubset(queryBase, queryWithFiltersAdded)).toEqual(true);
   });

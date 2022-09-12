@@ -23,9 +23,10 @@ function isEntitySubset(A: Entity | undefined, B: Entity | undefined): boolean {
     return true
   }
 
-  // console.log(A.fields, B.fields)
+  // console.log(A.name, B.name, A.entities, B.entities)
 
   for(let fB of B.fields) {
+    // console.log(fB)
     let exists = false
     for (let fA of A.fields) {    
       if (fA == fB) {
@@ -38,5 +39,17 @@ function isEntitySubset(A: Entity | undefined, B: Entity | undefined): boolean {
     }
   }
 
+
+  for (let id of Array.from(B.entities.keys())) {
+    let entity = B.entities.get(id) 
+    if (A.entities.has(id)) {
+      if (!isEntitySubset(A.entities.get(id), entity)) {
+        return false
+      }
+    } else {
+      return false
+    }
+  }
+  
   return true
 }
