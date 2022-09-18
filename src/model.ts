@@ -82,7 +82,8 @@ export function parse(query: string) : Map<string, Entity> {
     })
     return parsed
 }
-
+/*
+    * Commenting this out because the function is not used anywhere and is causing problems
 function isInsideQuery(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>) : boolean {
     for(let ancestor of ancestors) {
         if (ancestor instanceof Array) {
@@ -100,7 +101,7 @@ function isInsideQuery(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>
     }
     return false
 }
-
+*/
 function getAncestorsArray(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTNode>>, path: readonly (string|number)[] ) : Array<string> {
     let ret: Array<string> = []
     let index = path.length - 1
@@ -112,10 +113,12 @@ function getAncestorsArray(ancestors: ReadonlyArray<ASTNode | ReadonlyArray<ASTN
             continue
         // } else if (ancestor.kind == "Field") {
         //     ret.push(ancestor.name.value)
+        // @ts-ignore
         } else if (ancestor.kind == "SelectionSet") {
                 
             if(index > 2) {
                 let selectionIndex = path[index - 1] as number
+                // @ts-ignore
                 let parent = ancestor.selections[selectionIndex]
                 // if (!parent) {
                 //     console.log(ancestorsReversed, path, ancestor, selectionIndex, i)
